@@ -2,11 +2,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { ErrorText } from './ContactForm.Styled';
 
-const NAME_INPUT_TITLE =
+const nameInputTitle =
   "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan";
-const NAME_INPUT_PATTERN =
+const phoneRegExp =
   "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
-const NUMBER_INPUT_TITLE =
+const numberInputTitle =
   'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +';
 
 const FormError = ({ name }) => {
@@ -18,10 +18,22 @@ const FormError = ({ name }) => {
   );
 };
 
+// const validationSchema = Yup.object({
+//   name: Yup.string().required(),
+//   number: Yup.string().required(),
+// });
+
 const validationSchema = Yup.object({
-  name: Yup.string().required(),
+  name: Yup.string()
+    .min(3)
+    .max(30)
+    .matches(phoneRegExp, numberInputTitle)
+    .required(),
   number: Yup.string().required(),
 });
+
+
+
 
 export const ContactForm = ({ handleSubmit }) => {
   return (
@@ -39,8 +51,8 @@ export const ContactForm = ({ handleSubmit }) => {
               name="name"
               type="text"
               placeholder="Name"
-              pattern={NAME_INPUT_PATTERN}
-              title={NAME_INPUT_TITLE}
+              // pattern={NAME_INPUT_PATTERN}
+              title={nameInputTitle}
             />
             <FormError name="name" />
           </div>
@@ -53,7 +65,7 @@ export const ContactForm = ({ handleSubmit }) => {
               type="tel"
               placeholder="Number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title={NUMBER_INPUT_TITLE}
+              title={numberInputTitle}
             />
             <FormError name="number" />
           </div>

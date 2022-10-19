@@ -17,7 +17,7 @@ export class App extends Component {
   };
 
   handleSubmit = ({ name, number }, { resetForm }) => {
-    if (this.state.contacts.find(contact => contact.name === name)) {
+    if (this.state.contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())) {
       alert(name + ' is already in contacts');
       return;
     }
@@ -48,6 +48,13 @@ export class App extends Component {
     return;
   };
 
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter));
+  }
+
   render() {
     return (
       <ContainerPhonebook>
@@ -56,7 +63,7 @@ export class App extends Component {
 
         <h2>Contacts</h2>
         <Filter filterContacts={this.filterContacts} />
-        <ContactList values={this.state} deleteContact={this.deleteContact} />
+        <ContactList values={this.getFilteredContacts()} deleteContact={this.deleteContact} />
       </ContainerPhonebook>
     );
   }
