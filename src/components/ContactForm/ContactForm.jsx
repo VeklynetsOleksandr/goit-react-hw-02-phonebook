@@ -2,11 +2,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { ErrorText } from './ContactForm.Styled';
 
-const nameInputTitle =
+const NAME_INPUT_TITLE =
   "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan";
-const phoneRegExp =
-  "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
-const numberInputTitle =
+
+const NUMBER_INPUT_TITLE =
   'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +';
 
 const FormError = ({ name }) => {
@@ -27,13 +26,12 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .min(3)
     .max(30)
-    .matches(phoneRegExp, numberInputTitle)
+    .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, NAME_INPUT_TITLE)
     .required(),
-  number: Yup.string().required(),
+  number: Yup.string()
+    .matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, NUMBER_INPUT_TITLE)
+    .required(),
 });
-
-
-
 
 export const ContactForm = ({ handleSubmit }) => {
   return (
@@ -51,8 +49,7 @@ export const ContactForm = ({ handleSubmit }) => {
               name="name"
               type="text"
               placeholder="Name"
-              // pattern={NAME_INPUT_PATTERN}
-              title={nameInputTitle}
+              title={NAME_INPUT_TITLE}
             />
             <FormError name="name" />
           </div>
@@ -64,8 +61,7 @@ export const ContactForm = ({ handleSubmit }) => {
               name="number"
               type="tel"
               placeholder="Number"
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title={numberInputTitle}
+              title={NUMBER_INPUT_TITLE}
             />
             <FormError name="number" />
           </div>

@@ -62,8 +62,13 @@ export class App extends Component {
         <ContactForm handleSubmit={this.handleSubmit} />
 
         <h2>Contacts</h2>
-        <Filter filterContacts={this.filterContacts} />
-        <ContactList values={this.getFilteredContacts()} deleteContact={this.deleteContact} />
+        {this.state.contacts.length > 0 ? (
+          <>
+            <Filter filterContacts={this.filterContacts} />
+            <ContactList values={this.getFilteredContacts()} deleteContact={this.deleteContact} />
+          </>) : (
+          <h4>Phonebook is empty</h4>
+        )}
       </ContainerPhonebook>
     );
   }

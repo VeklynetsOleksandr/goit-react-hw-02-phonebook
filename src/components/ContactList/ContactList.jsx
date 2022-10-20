@@ -1,6 +1,8 @@
 import { ContactListComponent } from 'components/ContactListComponent/ContactListComponent';
 
-export const ContactList = ({ values, deleteContact }) => (
+export const ContactList = ({ values, deleteContact }) => {
+  if (values.length === 0) return null;
+  return (
   <ul>
     {values.map(contact => (
           <ContactListComponent
@@ -12,4 +14,5 @@ export const ContactList = ({ values, deleteContact }) => (
       }
   </ul>
 );
+} 
 
